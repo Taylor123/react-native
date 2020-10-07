@@ -21,6 +21,7 @@
   BOOL _refreshingProgrammatically;
   NSString *_title;
   UIColor *_titleColor;
+  float _progressViewOffset;
 }
 
 - (instancetype)init
@@ -53,6 +54,8 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
     [self beginRefreshingProgrammatically];
   }
   _isInitialRender = false;
+
+  self.frame = CGRectOffset(self.frame, 0, _progressViewOffset);
 }
 
 - (void)beginRefreshingProgrammatically
@@ -156,6 +159,11 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
 {
   _currentRefreshingState = refreshing;
   _currentRefreshingStateTimestamp = _currentRefreshingStateClock++;
+}
+
+- (void)setProgressViewOffset:(float)offset
+{
+	_progressViewOffset = offset / UIScreen.mainScreen.scale;
 }
 
 - (void)refreshControlValueChanged
